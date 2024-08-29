@@ -1,6 +1,7 @@
 package main;
 
 import Entity.Player;
+import Scenario.TileManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -12,24 +13,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Window size
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenColumn = 12;
+    public final int maxScreenColumn = 12;
     final int maxScreenRow = 16;
     public final int screenWidth = maxScreenRow * tileSize;
     public final int screenHeight = maxScreenColumn * tileSize;
 
+    public static int FPS = 360;
+
     Thread gameThread;
-
     KeyHandler keyHandler = new KeyHandler();
-
-    int FPS = 24;
-
-    int playerSpeed = 6;
-
-    // Player position
-
     Player player = new Player(this, keyHandler);
-
-
+    TileManager tile = new TileManager(this);
 
     public GamePanel() {
 
@@ -45,28 +39,31 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
+    
 
     @Override
     public void run() {
 
-        double drawInterval = (double) 1000 / FPS;
+
+
+
+        double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long currentTime;
-        long lastTime = System.currentTimeMillis();
+        long lastTime = System.nanoTime();
 
+        while (gameThread != null) {
 
-        while (gameThread != null){
-
-            currentTime = System.currentTimeMillis();
+            currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
 
             lastTime = currentTime;
 
             if (delta >= 1) {
-            update();
-            repaint();
-            delta--;
+                update();
+                repaint();
+                delta--;
             }
         }
     }
@@ -82,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g;
 
+        tile.draw(g2);
         player.draw(g2);
 
         g2.dispose();

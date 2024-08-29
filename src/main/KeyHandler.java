@@ -13,40 +13,43 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_W) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
             upPressed = true;
+            active = true;
         }
-        if (code == KeyEvent.VK_A) {
+        if (e.getKeyCode() == KeyEvent.VK_A) {
             leftPressed = true;
+            active = true;
         }
-        if (code == KeyEvent.VK_S) {
+        if (e.getKeyCode() == KeyEvent.VK_S) {
             downPressed = true;
+            active = true;
         }
-        if (code == KeyEvent.VK_D) {
+        if (e.getKeyCode() == KeyEvent.VK_D) {
             rightPressed = true;
+            active = true;
         }
-        active = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
-        int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_W) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
             upPressed = false;
+            active = false;
         }
-        if (code == KeyEvent.VK_A) {
+        if (e.getKeyCode() == KeyEvent.VK_A) {
             leftPressed = false;
+            active = false;
         }
-        if (code == KeyEvent.VK_S) {
+        if (e.getKeyCode() == KeyEvent.VK_S) {
             downPressed = false;
+            active = false;
         }
-        if (code == KeyEvent.VK_D) {
+        if (e.getKeyCode() == KeyEvent.VK_D) {
             rightPressed = false;
+            active = false;
         }
-        active = false;
+
     }
 }

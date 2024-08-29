@@ -6,15 +6,10 @@ import main.KeyHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static java.lang.Math.round;
-
 public class Player extends Entity {
 
     GamePanel gamePanel;
     KeyHandler keyHandler;
-
-    public int spriteCounter = 0;
-    public int spriteSpeed = 3;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
@@ -32,47 +27,41 @@ public class Player extends Entity {
 
         x = (gamePanel.screenWidth / 2) - (gamePanel.tileSize / 2);
         y = (gamePanel.screenHeight / 2) - (gamePanel.tileSize / 2);
-        speed = 6;
+        speed = Math.round((float) 180 / (GamePanel.FPS));
         spriteCounter = 0;
+        spriteSpeed = Math.round((float) (GamePanel.FPS) / 10);
     }
 
     public void update() {
 
         if (keyHandler.upPressed) {
             direction = "up";
+            walking = true;
             y -= speed;
         }
         if (keyHandler.leftPressed) {
             direction = "left";
+            walking = true;
             x -= speed;
         }
         if (keyHandler.downPressed) {
             direction = "down";
+            walking = true;
             y += speed;
         }
         if (keyHandler.rightPressed) {
             direction = "right";
+            walking = true;
             x += speed;
         }
-        if (keyHandler.active) {
-            walking = true;
-        }
-        if (!keyHandler.active) {
+        if (!keyHandler.active || keyHandler.rightPressed && keyHandler.leftPressed || keyHandler.downPressed && keyHandler.upPressed) {
             walking = false;
         }
     }
 
     public void draw(Graphics2D g2) {
 
-        /*
-        g2.setColor(Color.white);
-
-        g2.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);
-        */
-
         BufferedImage image = null;
-
-        System.out.println(walking);
 
         if (walking) {
 
@@ -114,6 +103,6 @@ public class Player extends Entity {
             spriteCounter++;
         }
 
-        g2.drawImage(image, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(image, x, y, gamePanel.tileSize * 2, gamePanel.tileSize * 2, null);
     }
 }
